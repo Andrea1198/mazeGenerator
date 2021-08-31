@@ -37,6 +37,8 @@ class Cell:
         if nNeighbors > 0:
             r = randint(0, nNeighbors-1)
             return neighbors[r]
+        # elif nNeighbors == 0:
+
 
 
     def show(self, screen, w):
@@ -105,8 +107,6 @@ def showGrid(grid, screen, w):
     for cell in grid:
         cell.show(screen, w)
 
-
-
 def start():
     import pygame
     from pygame.time import delay
@@ -119,7 +119,7 @@ def start():
     w       = WIDTH/cols
     grid    = createGrid(cols, rows)
     current = grid[0]
-
+    stack   = []
     # Running
     running = True
     while running:
@@ -131,10 +131,9 @@ def start():
         next = current.checkNeighbors(grid, cols)
         if next:
             next.visited = True
+            stack.append(current)
             removeWall(current, next)
             current = next
-
-
 
         showGrid(grid, screen, w)
         current.highlight(screen, w)
