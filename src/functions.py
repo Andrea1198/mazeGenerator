@@ -111,8 +111,8 @@ def start():
     import pygame
     from pygame.time import delay
     pygame.init()
-    cols    = 50
-    rows    = 50
+    cols    = 20
+    rows    = 20
     w       = 10
     WIDTH = w*cols
     HEIGHT = w*rows
@@ -139,4 +139,26 @@ def start():
 
         showGrid(grid, screen, w)
         current.highlight(screen, w)
+        running = False
+        for i in grid:
+            if i.visited == False:
+                running = True
         pygame.display.update()
+    current = grid[0]
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        if pygame.key.get_pressed()[pygame.K_w] and current.j > 0:
+            current = grid[index(current.i, current.j-1, cols)]
+        if pygame.key.get_pressed()[pygame.K_a] and current.i > 0:
+            current = grid[index(current.i-1, current.j, cols)]
+        if pygame.key.get_pressed()[pygame.K_s] and current.j < cols-1:
+            current = grid[index(current.i, current.j+1, cols)]
+        if pygame.key.get_pressed()[pygame.K_d] and current.i < cols-1:
+            current = grid[index(current.i+1, current.j, cols)]
+        showGrid(grid, screen, w)
+        current.highlight(screen, w)
+        pygame.display.update()
+        delay(100)
