@@ -110,13 +110,13 @@ def showGrid(grid, screen, w):
 def start():
     import pygame
     from pygame.time import delay
-    WIDTH = 500
-    HEIGHT = 500
     pygame.init()
+    cols    = 50
+    rows    = 50
+    w       = 10
+    WIDTH = w*cols
+    HEIGHT = w*rows
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    cols    = 20
-    rows    = 20
-    w       = WIDTH/cols
     grid    = createGrid(cols, rows)
     current = grid[0]
     stack   = []
@@ -134,8 +134,9 @@ def start():
             stack.append(current)
             removeWall(current, next)
             current = next
+        elif len(stack) > 0:
+            current = stack.pop()
 
         showGrid(grid, screen, w)
         current.highlight(screen, w)
-
         pygame.display.update()
